@@ -1,9 +1,20 @@
-const request = require('request');
-const config = require('./config.js');
+const yargs = require('yargs');
 
-request({
-    url: 'https://maps.googleapis.com/maps/api/geocode/json?address=' + config.ADDRESS + '&key=' + config.KEY,
-    json: true
-}, (error, response, body) => {
-    console.log(JSON.stringify(response, undefined, 2));
-});
+const geocode = require('./geocode/geocode');1
+const argv = yargs
+    .options({
+        a: {
+            demand: true,
+            alias: 'address',
+            describe: 'Address to fetch weather for',
+            string: true
+        }
+    })
+    .help()
+    .alias('help', 'h')
+    .argv;
+
+// console.log(encodeURIComponent(argv.a));
+geocode.geocodeAddress(argv.address);
+
+
